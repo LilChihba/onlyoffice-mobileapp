@@ -1,4 +1,4 @@
-package com.example.onlyoffice.ui.theme.navigation
+package com.example.onlyoffice.ui.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
@@ -39,6 +39,7 @@ fun BottomNavigationBar(navController: NavController) {
     ){
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+        
         items.forEach { item ->
             NavigationBarItem(
                 icon = {
