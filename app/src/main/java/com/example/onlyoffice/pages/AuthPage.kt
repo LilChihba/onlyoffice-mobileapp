@@ -3,7 +3,6 @@ package com.example.onlyoffice.pages
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,26 +15,36 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults.OutlinedTextFieldDecorationBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.onlyoffice.R
+import com.example.onlyoffice.interfaces.LoginRequest
+import com.example.onlyoffice.models.AuthResponse
+import com.example.onlyoffice.viewmodels.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AuthPage(onScreenVisible: () -> Unit) {
+fun AuthPage(
+    authViewModel: AuthViewModel = viewModel(),
+    onScreenVisible: () -> Unit
+) {
     LaunchedEffect(Unit) {
         onScreenVisible()
     }
 
-    val textPortal = remember { mutableStateOf("") }
-    val textEmail = remember { mutableStateOf("") }
-    val textPassword = remember { mutableStateOf("") }
+    val textPortal = remember { mutableStateOf("https://testdocspaceportal.onlyoffice.com/") }
+    val textEmail = remember { mutableStateOf("1one.test901@gmail.com") }
+    val textPassword = remember { mutableStateOf("Testpass123") }
+    var result by remember { mutableStateOf<AuthResponse?>(null) }
 
     Column(
         modifier = Modifier
@@ -148,12 +157,24 @@ fun AuthPage(onScreenVisible: () -> Unit) {
         )
 
         Button(
-            onClick = {  },
+            onClick = {
+                val request = LoginRequest(
+                    username = textEmail.value,
+                    password = textPassword.value
+                )
+                authViewModel.initPortal(textPortal.value)
+                authViewModel.authentication(request) { response ->
+                    result = response
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "Login"
             )
+        }
+        result?.let {
+            Text("Авторизация успешна: ${it.status}")
         }
     }
 }
