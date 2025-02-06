@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun DocumentsPage(onScreenVisible: () -> Unit) {
+fun DocumentsPage(
+    onScreenVisible: () -> Unit
+) {
     LaunchedEffect(Unit) {
         onScreenVisible()
     }

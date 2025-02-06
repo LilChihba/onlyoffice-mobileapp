@@ -15,26 +15,25 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults.OutlinedTextFieldDecorationBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.onlyoffice.R
 import com.example.onlyoffice.interfaces.LoginRequest
-import com.example.onlyoffice.models.AuthResponse
-import com.example.onlyoffice.viewmodels.AuthViewModel
+import com.example.onlyoffice.ui.navigation.BottomNavItem
+import com.example.onlyoffice.viewmodels.TokenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthPage(
-    authViewModel: AuthViewModel = viewModel(),
+    tokenViewModel: TokenViewModel,
+    navController: NavController,
     onScreenVisible: () -> Unit
 ) {
     LaunchedEffect(Unit) {
@@ -44,7 +43,6 @@ fun AuthPage(
     val textPortal = remember { mutableStateOf("https://testdocspaceportal.onlyoffice.com/") }
     val textEmail = remember { mutableStateOf("1one.test901@gmail.com") }
     val textPassword = remember { mutableStateOf("Testpass123") }
-    var result by remember { mutableStateOf<AuthResponse?>(null) }
 
     Column(
         modifier = Modifier
@@ -162,9 +160,13 @@ fun AuthPage(
                     username = textEmail.value,
                     password = textPassword.value
                 )
-                authViewModel.initPortal(textPortal.value)
-                authViewModel.authentication(request) { response ->
-                    result = response
+                tokenViewModel.initPortal(textPortal.value)
+                tokenViewModel.authentication(request) { response ->
+                    if (response != null) {
+                        navController.navigate(BottomNavItem.DocumentsPage.route)
+                    } else {
+                        println("Authentication failed")
+                    }
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -172,9 +174,6 @@ fun AuthPage(
             Text(
                 text = "Login"
             )
-        }
-        result?.let {
-            Text("Авторизация успешна: ${it.status}")
         }
     }
 }

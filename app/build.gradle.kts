@@ -51,6 +51,9 @@ android {
 
 dependencies {
     implementation(libs.androidx.lifecycle.livedata.core)
+    implementation(libs.logging.interceptor)
+    implementation(libs.coil.compose)
+    implementation(libs.okhttp)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.androidx.core.ktx)
@@ -63,6 +66,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

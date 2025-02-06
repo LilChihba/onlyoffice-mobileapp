@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -17,9 +18,12 @@ import com.example.onlyoffice.pages.DocumentsPage
 import com.example.onlyoffice.pages.ProfilePage
 import com.example.onlyoffice.pages.RoomsPage
 import com.example.onlyoffice.pages.TrashPage
+import com.example.onlyoffice.viewmodels.TokenViewModel
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    tokenViewModel: TokenViewModel = viewModel(),
+) {
     val navController = rememberNavController()
     var showBottomNavigation by remember { mutableStateOf(true) }
 
@@ -36,7 +40,7 @@ fun MainScreen() {
             composable(BottomNavItem.RoomsPage.route) { RoomsPage() { showBottomNavigation = true } }
             composable(BottomNavItem.TrashPage.route) { TrashPage() { showBottomNavigation = true } }
             composable(BottomNavItem.ProfilePage.route) { ProfilePage() { showBottomNavigation = true } }
-            composable("authPage") { AuthPage() { showBottomNavigation = false } }
+            composable("authPage") { AuthPage(tokenViewModel, navController) { showBottomNavigation = false } }
         }
     }
 }
