@@ -52,7 +52,7 @@ class TokenViewModel: ViewModel() {
                 apiService.logout()
                 _token.value = null
                 URL.link = ""
-
+                println("The user logged out of the account")
             } catch (e: HttpException) {
                 when(e.code()) {
                     400 -> println("${e.code()}: Bad Request")

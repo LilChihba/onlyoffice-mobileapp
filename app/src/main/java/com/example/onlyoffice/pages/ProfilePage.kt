@@ -34,13 +34,12 @@ fun ProfilePage(
     profileViewModel: MyProfileViewModel = viewModel(),
     onScreenVisible: () -> Unit
 ) {
-    profileViewModel.initPortal()
-    profileViewModel.getProfile()
-    val profile by profileViewModel.profile.observeAsState(MyProfileResponse(null))
-
     LaunchedEffect(Unit) {
         onScreenVisible()
+        profileViewModel.initPortal()
+        profileViewModel.getProfile()
     }
+    val profile by profileViewModel.profile.observeAsState(MyProfileResponse(null))
 
     Column(
         modifier = Modifier
@@ -106,6 +105,7 @@ fun ProfilePage(
         ) {
             Button(
                 onClick = {
+                    tokenViewModel.initPortal(URL.link)
                     tokenViewModel.logout()
                     navController.navigate("authPage")
                 },
