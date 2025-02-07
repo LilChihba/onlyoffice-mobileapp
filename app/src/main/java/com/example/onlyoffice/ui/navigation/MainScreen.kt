@@ -39,7 +39,7 @@ fun MainScreen(
             composable(BottomNavItem.DocumentsPage.route) { DocumentsPage() { showBottomNavigation = true } }
             composable(BottomNavItem.RoomsPage.route) { RoomsPage() { showBottomNavigation = true } }
             composable(BottomNavItem.TrashPage.route) { TrashPage() { showBottomNavigation = true } }
-            composable(BottomNavItem.ProfilePage.route) { ProfilePage() { showBottomNavigation = true } }
+            composable(BottomNavItem.ProfilePage.route) { ProfilePage(tokenViewModel, navController) { showBottomNavigation = true } }
             composable("authPage") { AuthPage(tokenViewModel, navController) { showBottomNavigation = false } }
         }
     }

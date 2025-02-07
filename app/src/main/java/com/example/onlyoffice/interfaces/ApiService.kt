@@ -17,7 +17,15 @@ interface ApiService {
 
     @GET("api/2.0/people/@self")
     suspend fun getMyProfile(): MyProfileResponse
+
+    @POST("api/2.0/authentication/logout")
+    suspend fun logout(): Response
 }
+
+data class Response(
+    val status: Int,
+    val statusCode: Int,
+)
 
 data class LoginRequest(
     val username: String,

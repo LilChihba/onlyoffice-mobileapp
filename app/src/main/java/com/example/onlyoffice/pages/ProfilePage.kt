@@ -20,13 +20,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.onlyoffice.models.MyProfileResponse
 import com.example.onlyoffice.objects.URL
 import com.example.onlyoffice.viewmodels.MyProfileViewModel
+import com.example.onlyoffice.viewmodels.TokenViewModel
 
 @Composable
 fun ProfilePage(
+    tokenViewModel: TokenViewModel,
+    navController: NavController,
     profileViewModel: MyProfileViewModel = viewModel(),
     onScreenVisible: () -> Unit
 ) {
@@ -101,7 +105,10 @@ fun ProfilePage(
                 .fillMaxWidth()
         ) {
             Button(
-                onClick = {  },
+                onClick = {
+                    tokenViewModel.logout()
+                    navController.navigate("authPage")
+                },
                 modifier = Modifier
                     .padding(top = 25.dp)
                     .width(200.dp)

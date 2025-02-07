@@ -45,4 +45,25 @@ class TokenViewModel: ViewModel() {
             }
         }
     }
+
+    fun logout() {
+        viewModelScope.launch {
+            try {
+                apiService.logout()
+                _token.value = null
+                URL.link = ""
+
+            } catch (e: HttpException) {
+                when(e.code()) {
+                    400 -> println("${e.code()}: Bad Request")
+                    401 -> println("${e.code()}: Unauthorized")
+                    404 -> println("${e.code()}: Not Found")
+                    500 -> println("${e.code()}: Internal Server Error")
+                    else -> println("${e.code()}")
+                }
+            } catch (e: IOException) {
+                println("Network error: ${e.message}")
+            }
+        }
+    }
 }
