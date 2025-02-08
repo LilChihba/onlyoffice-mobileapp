@@ -5,27 +5,27 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.onlyoffice.interfaces.ApiService
-import com.example.onlyoffice.models.DocumentsResponse
+import com.example.onlyoffice.models.RoomResponse
 import com.example.onlyoffice.objects.RetrofitClient
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-class DocumentViewModel: ViewModel() {
+class RoomViewModel: ViewModel() {
     private lateinit var apiService: ApiService
-    private val _documents = MutableLiveData<DocumentsResponse?>(null)
-    val documents: LiveData<DocumentsResponse?> get() = _documents
+    private val _rooms = MutableLiveData<RoomResponse?>(null)
+    val rooms: LiveData<RoomResponse?> get() = _rooms
 
     fun initPortal(portal: String) {
         println("Подключение к порталу: $portal")
         apiService = RetrofitClient.getClient(portal).create(ApiService::class.java)
     }
 
-    fun getDocuments() {
+    fun getRooms() {
         viewModelScope.launch {
             try {
-                val response = apiService.getDocuments()
-                _documents.value = response
+                val response = apiService.getRooms()
+                _rooms.value = response
             } catch (e: HttpException) {
                 when(e.code()) {
                     400 -> println("${e.code()}: Bad Request")
@@ -38,9 +38,5 @@ class DocumentViewModel: ViewModel() {
                 println("Network error: ${e.message}")
             }
         }
-    }
-
-    fun getFolderById() {
-
     }
 }
