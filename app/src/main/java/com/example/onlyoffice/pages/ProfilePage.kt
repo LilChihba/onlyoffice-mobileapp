@@ -52,70 +52,72 @@ fun ProfilePage(
             modifier = Modifier
                 .padding(top = 70.dp)
         )
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column {
-                AsyncImage(
-                    model = "${URL.link} + ${profile?.response?.avatar}",
-                    contentDescription = "Example Image",
-                    modifier = Modifier
-                        .padding(top = 40.dp)
-                        .size(120.dp)
-                        .clip(CircleShape)
-                )
+        if(profile != null) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Column {
+                    AsyncImage(
+                        model = "${URL.link} + ${profile?.response?.avatar}",
+                        contentDescription = "Example Image",
+                        modifier = Modifier
+                            .padding(top = 40.dp)
+                            .size(120.dp)
+                            .clip(CircleShape)
+                    )
+                    Text(
+                        text = "${profile?.response?.userName}",
+                        fontSize = 22.sp,
+                        modifier = Modifier
+                            .padding(top = 15.dp)
+                    )
+                }
+            }
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
                 Text(
-                    text = "${profile?.response?.userName}",
-                    fontSize = 22.sp,
+                    text = "E-mail",
+                    fontSize = 16.sp,
                     modifier = Modifier
                         .padding(top = 15.dp)
                 )
             }
-        }
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = "E-mail",
-                fontSize = 16.sp,
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .padding(top = 15.dp)
-            )
-        }
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = "${profile?.response?.email}",
-                fontSize = 16.sp,
-                modifier = Modifier
-                    .padding(top = 5.dp)
-            )
-        }
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Button(
-                onClick = {
-                    tokenViewModel.initPortal(URL.link)
-                    tokenViewModel.logout()
-                    navController.navigate("authPage")
-                },
-                modifier = Modifier
-                    .padding(top = 25.dp)
-                    .width(200.dp)
+                    .fillMaxWidth()
             ) {
                 Text(
-                    text = "Logout"
+                    text = "${profile?.response?.email}",
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .padding(top = 5.dp)
                 )
+            }
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Button(
+                    onClick = {
+                        tokenViewModel.initPortal(URL.link)
+                        tokenViewModel.logout()
+                        navController.navigate("authPage")
+                    },
+                    modifier = Modifier
+                        .padding(top = 25.dp)
+                        .width(200.dp)
+                ) {
+                    Text(
+                        text = "Logout"
+                    )
+                }
             }
         }
     }
