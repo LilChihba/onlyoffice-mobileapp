@@ -4,6 +4,7 @@ import com.example.onlyoffice.models.AuthResponse
 import com.example.onlyoffice.models.DocumentsResponse
 import com.example.onlyoffice.models.MyProfileResponse
 import com.example.onlyoffice.models.RoomResponse
+import com.example.onlyoffice.models.TrashResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -25,6 +26,9 @@ interface ApiService {
 
     @GET("api/2.0/files/rooms")
     suspend fun getRooms(): RoomResponse
+
+    @GET("api/2.0/files/@trash")
+    suspend fun getTrash(): TrashResponse
 }
 
 data class Response(
