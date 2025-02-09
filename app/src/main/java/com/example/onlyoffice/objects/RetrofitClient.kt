@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap
 
 object RetrofitClient {
     class PersistentCookieJar : CookieJar {
-
         private val cookiesMap = ConcurrentHashMap<String, List<Cookie>>()
 
         override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {

@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,7 @@ fun AuthPage(
     val textPortal = remember { mutableStateOf("https://testdocspaceportal.onlyoffice.com/") }
     val textEmail = remember { mutableStateOf("1one.test901@gmail.com") }
     val textPassword = remember { mutableStateOf("Testpass123") }
+    val errorMessage = remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -60,6 +62,7 @@ fun AuthPage(
                 fontSize = 30.sp,
             )
         }
+
 
         BasicTextField(
             value = textPortal.value,
@@ -154,6 +157,14 @@ fun AuthPage(
                 .height(50.dp)
         )
 
+        errorMessage.value?.let { message ->
+            Text(
+                text = message,
+                color = Color.Red,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
+
         Button(
             onClick = {
                 val request = LoginRequest(
@@ -165,6 +176,7 @@ fun AuthPage(
                     if (response != null) {
                         navController.navigate(BottomNavItem.DocumentsPage.route)
                     } else {
+                        errorMessage.value = "Authentication failed. Please check your credentials."
                         println("Authentication failed")
                     }
                 }
