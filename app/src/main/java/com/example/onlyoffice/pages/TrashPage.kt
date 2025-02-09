@@ -13,12 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.onlyoffice.models.TrashResponse
 import com.example.onlyoffice.objects.URL
 import com.example.onlyoffice.viewmodels.TrashViewModel
 
 @Composable
 fun TrashPage(
+    navController: NavController,
     trashViewModel: TrashViewModel = viewModel(),
     onScreenVisible: () -> Unit
 ) {
@@ -52,7 +54,7 @@ fun TrashPage(
                             currentTrash.response.folders[it].id
                         },
                         itemContent = { index ->
-                            FolderButton(currentTrash.response.folders[index])
+                            FolderButton(currentTrash.response.folders[index], navController)
                         }
                     )
                 }

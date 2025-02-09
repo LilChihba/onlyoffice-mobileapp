@@ -9,6 +9,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @Headers("Content-Type: application/json")
@@ -20,6 +21,9 @@ interface ApiService {
 
     @GET("api/2.0/files/@my")
     suspend fun getDocuments(): DocumentsResponse
+
+    @GET("api/2.0/files/{folderId}")
+    suspend fun getFolderById(@Path("folderId") folderId: Int): DocumentsResponse
 
     @GET("api/2.0/people/@self")
     suspend fun getMyProfile(): MyProfileResponse

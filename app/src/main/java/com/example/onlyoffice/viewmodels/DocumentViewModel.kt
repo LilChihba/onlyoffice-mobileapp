@@ -40,7 +40,22 @@ class DocumentViewModel: ViewModel() {
         }
     }
 
-    fun getFolderById() {
-
+    fun getFolderById(id: Int) {
+        viewModelScope.launch {
+            try {
+                val response = apiService.getFolderById(id)
+                _documents.value = response
+            } catch (e: HttpException) {
+                when(e.code()) {
+                    400 -> println("${e.code()}: Bad Request")
+                    401 -> println("${e.code()}: Unauthorized")
+                    404 -> println("${e.code()}: Not Found")
+                    500 -> println("${e.code()}: Internal Server Error")
+                    else -> println("${e.code()}")
+                }
+            } catch (e: IOException) {
+                println("Network error: ${e.message}")
+            }
+        }
     }
 }

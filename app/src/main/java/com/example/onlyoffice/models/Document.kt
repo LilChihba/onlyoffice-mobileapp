@@ -6,7 +6,8 @@ data class DocumentsResponse(
 
 data class Documents(
     val files: List<File>,
-    val folders: List<Folder>
+    val folders: List<Folder>,
+    val current: PathParts
 )
 
 data class File(
@@ -16,6 +17,11 @@ data class File(
 )
 
 data class Folder(
+    val id: Int,
+    val title: String
+)
+
+data class PathParts(
     val id: Int,
     val title: String
 )

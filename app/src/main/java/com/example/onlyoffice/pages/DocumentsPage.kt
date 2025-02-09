@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.onlyoffice.R
 import com.example.onlyoffice.models.DocumentsResponse
 import com.example.onlyoffice.models.File
@@ -40,6 +41,7 @@ import com.example.onlyoffice.viewmodels.DocumentViewModel
 
 @Composable
 fun DocumentsPage(
+    navController: NavController,
     documentViewModel: DocumentViewModel = viewModel(),
     onScreenVisible: () -> Unit
 ) {
@@ -72,7 +74,7 @@ fun DocumentsPage(
                             currentDocuments.response.folders[it].id
                         },
                         itemContent = { index ->
-                            FolderButton(currentDocuments.response.folders[index])
+                            FolderButton(currentDocuments.response.folders[index], navController)
                         }
                     )
                 }
@@ -94,10 +96,11 @@ fun DocumentsPage(
 
 @Composable
 fun FolderButton(
-    folder: Folder
+    folder: Folder,
+    navController: NavController
 ) {
     Button(
-        onClick = {  },
+        onClick = { navController.navigate("folderPage/${folder.id}") },
         colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
         shape = ShapeDefaults.Small,
         contentPadding = PaddingValues(0.dp),
